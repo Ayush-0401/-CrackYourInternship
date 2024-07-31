@@ -1,0 +1,70 @@
+/* Following is the Linked list node structure */
+
+/*
+struct Node
+{
+    int data;
+    struct Node* next;
+
+    Node(int x){
+        data = x;
+        next = NULL;
+    }
+};
+*/
+
+class Solution{ 
+public:
+    int count(Node * head)
+    {
+        int c = 0;
+        while(head != NULL)
+        {
+            c++;
+            head = head -> next;
+        }
+        return c;
+    }
+    Node * reverse(Node * head)
+    {
+        if(head == NULL || head -> next == NULL)
+        {
+            return head;
+        }
+        Node * newh = NULL;
+        while(head != NULL)
+        {
+            Node * temp = head;
+            head = head -> next;
+            temp -> next = newh;
+            newh = temp;
+        }
+        return newh;
+    }
+    void reorderList(Node* head) {
+        if(head == NULL || head -> next == NULL)
+        {
+            return;
+        }
+        Node * temp = head;
+        Node * mid = head;
+        int len = count(head);
+        int pos = (len / 2) + 1;
+        for(int i = 0 ; i < pos - 1 ; i++)
+        {
+            mid = mid -> next;
+        }
+        Node * rev = reverse(mid -> next);
+        while(rev != NULL && temp != NULL)
+        {
+            Node * t1 = temp -> next;
+            Node * t2 = rev -> next;
+            temp -> next = rev;
+            rev -> next = t1;
+            temp = t1;
+            rev = t2;
+        }
+        mid -> next = NULL;
+    }
+    
+};
